@@ -1,5 +1,5 @@
 /* =====================================================
-   PITI - CÓDIGO COMPLETO CON MENSAJE PERSONALIZADO
+   PITI - CÓDIGO COMPLETO CON CORAZONES Y ESTRELLAS
 ===================================================== */
 
 const CORRECT_PIN = "2405";
@@ -11,13 +11,13 @@ const unlockBtn = document.getElementById("unlockBtn");
 const errorText = document.getElementById("errorText");
 const audioContainer = document.getElementById("audioContainer");
 
-/* ==============================
-      CANVAS ESTRELLAS
-============================== */
+/* ==========================================
+      CANVAS: ESTRELLAS TITILANTES Y CORAZONES
+========================================== */
 
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
-let stars = [];
+let elements = [];
 
 function resizeCanvas(){
     canvas.width = window.innerWidth;
@@ -27,35 +27,86 @@ function resizeCanvas(){
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-function createStars(){
-    stars = [];
-    for(let i = 0; i < 260; i++){
-        stars.push({
+function createBackground() {
+    elements = [];
+    
+    // Creación de 100 estrellas titilantes
+    for(let i = 0; i < 100; i++){
+        elements.push({
+            type: "star",
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            r: Math.random() * 2,
-            a: Math.random(),
-            speed: .002 + Math.random() * .004
+            size: Math.random() * 1.5 + 0.5,
+            alpha: Math.random(),
+            speed: 0.01 + Math.random() * 0.02
         });
+    }
+
+    // Creación inicial de 40 corazones flotantes
+    for(let i = 0; i < 40; i++){
+        elements.push(newHeart(true)); // true indica que se distribuyen por toda la pantalla al inicio
     }
 }
 
-createStars();
-
-function drawStars(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.forEach(star => {
-        star.a += star.speed;
-        let alpha = (Math.sin(star.a) + 1) / 2;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
-        ctx.fill();
-    });
-    requestAnimationFrame(drawStars);
+function newHeart(randomY = false) {
+    return {
+        type: "heart",
+        x: Math.random() * canvas.width,
+        y: randomY ? Math.random() * canvas.height : canvas.height + 20,
+        size: Math.random() * 12 + 6, // Tamaños variados
+        speed: 0.4 + Math.random() * 0.8, // Velocidad de subida
+        opacity: 0.1 + Math.random() * 0.5, // Transparencia sutil para que no tape el texto
+        wobble: Math.random() * 100,
+        wobbleSpeed: 0.02 + Math.random() * 0.03
+    };
 }
 
-drawStars();
+// Función auxiliar para dibujar corazones en el Canvas
+function drawHeartShape(ctx, x, y, size) {
+    ctx.moveTo(x, y + size / 4);
+    ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
+    ctx.bezierCurveTo(x - size / 2, y + (size * 5) / 8, x, y + (size * 7) / 8, x, y + size);
+    ctx.bezierCurveTo(x, y + (size * 7) / 8, x + size / 2, y + (size * 5) / 8, x + size / 2, y + size / 4);
+    ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 4);
+}
+
+function drawBackground(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    elements.forEach((el, index) => {
+        if (el.type === "star") {
+            // Lógica de titileo (brillo que cambia)
+            el.alpha += el.speed;
+            let currentAlpha = (Math.sin(el.alpha) + 1) / 2;
+            
+            ctx.beginPath();
+            ctx.arc(el.x, el.y, el.size, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.6 + ")";
+            ctx.fill();
+        } 
+        else if (el.type === "heart") {
+            // Movimiento hacia arriba y leve balanceo de lado a lado
+            el.y -= el.speed;
+            el.wobble += el.wobbleSpeed;
+            let currentX = el.x + Math.sin(el.wobble) * 15;
+            
+            ctx.beginPath();
+            drawHeartShape(ctx, currentX, el.y, el.size);
+            ctx.fillStyle = "rgba(255, 78, 118, " + el.opacity + ")"; // Color rosado/rojo romántico
+            ctx.fill();
+            
+            // Si el corazón se sale por arriba de la pantalla, lo reiniciamos abajo
+            if (el.y < -20) {
+                elements[index] = newHeart(false);
+            }
+        }
+    });
+    
+    requestAnimationFrame(drawBackground);
+}
+
+createBackground();
+drawBackground();
 
 /* ==============================
       INPUT PIN & VALIDACIÓN
