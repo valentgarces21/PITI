@@ -122,3 +122,78 @@ inputs.forEach((input,index)=>{
     });
 
 });
+/* =====================================================
+   PARTE 2 - DESBLOQUEO Y CARTA
+===================================================== */
+
+function getPin() {
+    return [...inputs].map(input => input.value).join("");
+}
+
+function clearPin() {
+    inputs.forEach(input => input.value = "");
+    inputs[0].focus();
+}
+
+unlockBtn.addEventListener("click", unlock);
+
+inputs.forEach(input => {
+    input.addEventListener("keyup", e => {
+
+        if (e.key === "Enter") {
+            unlock();
+        }
+
+    });
+});
+
+function unlock() {
+
+    const pin = getPin();
+
+    if (pin !== CORRECT_PIN) {
+
+        loginCard.classList.add("shake");
+
+        errorText.textContent =
+            "❤️ Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";
+
+        setTimeout(() => {
+
+            loginCard.classList.remove("shake");
+
+            clearPin();
+
+        }, 500);
+
+        return;
+
+    }
+
+    errorText.textContent = "";
+
+    loginCard.classList.add("fadeOut");
+
+    setTimeout(showLetter, 1000);
+
+}
+
+function showLetter() {
+
+    loginCard.style.display = "none";
+
+    letterSection.classList.remove("hidden");
+
+    letterSection.classList.add("fadeIn");
+
+    const paper = document.querySelector(".paper");
+
+    setTimeout(() => {
+
+        paper.classList.add("show");
+
+        createAudioButton();
+
+    }, 800);
+
+}
