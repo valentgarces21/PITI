@@ -264,7 +264,6 @@
             margin-top: 20px;
         }
 
-        /* TEXTO CORREGIDO Y ENFOCADO EN LEER LA NOTA */
         .inline-scroll-indicator {
             background: rgba(255, 78, 118, 0.1);
             border-radius: 12px;
@@ -320,7 +319,8 @@
             <h1>Para mi amor</h1>
             <p class="subtitle">Este es un espacio secreto que preparé para ti.</p>
             <div class="divider"></div>
-            <p class="hint">Ingresa los 4 dígitos del PIN para desbloquear el mensaje.</p>
+            <!-- TEXTO DE PISTA ACTUALIZADO -->
+            <p class="hint">Ingresa los 4 dígitos de nuestra fecha especial para desbloquear el mensaje.</p>
             
             <div class="pin-container">
                 <input type="text" class="digit" maxlength="1" inputmode="numeric" autocomplete="off">
@@ -341,7 +341,6 @@
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
                 
-                <!-- SECCIÓN DEL INDICADOR CLARO CON LA NUEVA PALABRA -->
                 <div class="inline-scroll-indicator">
                     <span>Desliza abajo para ver el video y leer tu nota final</span> 👇
                 </div>
@@ -374,6 +373,7 @@
     </div>
 
     <script>
+        // MANTENEMOS EL PIN ORIGINAL
         const CORRECT_PIN = "2405";
 
         const AUDIO_URL_1 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a";
