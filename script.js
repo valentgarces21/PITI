@@ -1,5 +1,5 @@
 /* =====================================================
-   PITI - CÓDIGO COMPLETO CORREGIDO
+   PITI - CÓDIGO COMPLETO ULTRA SEGURO
 ===================================================== */
 
 const CORRECT_PIN = "2405";
@@ -62,28 +62,34 @@ drawStars();
 ============================== */
 
 inputs.forEach((input, index) => {
-    // Detecta cuando escribes en el cuadrito
-    input.addEventListener("input", () => {
-        input.value = input.value.replace(/[^0-9]/g, ""); // Solo permite números
+    // Detecta la escritura y limpia datos extraños
+    input.addEventListener("input", (e) => {
+        input.value = input.value.replace(/[^0-9]/g, "");
 
-        // Si escribiste un número, pasa automáticamente al siguiente cuadrito
         if (input.value && index < inputs.length - 1) {
             inputs[index + 1].focus();
         }
 
-        // CONTROL AUTOMÁTICO: Si ya se llenaron los 4 números, intenta desbloquear de una vez
+        // Validación automática
         const currentPin = getPin();
         if (currentPin.length === 4) {
             unlock();
         }
     });
 
-    // Detecta si borras con la tecla de retroceso
+    // Control al borrar con retroceso
     input.addEventListener("keydown", (e) => {
         if (e.key === "Backspace" && input.value === "") {
             if (index > 0) {
                 inputs[index - 1].focus();
             }
+        }
+    });
+    
+    // Soporte para presionar ENTER en móviles
+    input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            unlock();
         }
     });
 });
@@ -94,12 +100,16 @@ function getPin() {
 
 function clearPin() {
     inputs.forEach(input => input.value = "");
-    inputs[0].focus();
+    if(inputs[0]) inputs[0].focus();
 }
 
-// Mantenemos el botón por si acaso le dan clic
-unlockBtn.addEventListener("click", unlock);
-
+// Acción del botón físico (Ahora con doble verificación)
+if (unlockBtn) {
+    unlockBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        unlock();
+    });
+}
 
 /* =====================================================
    DESBLOQUEO Y CARTA
@@ -108,9 +118,12 @@ unlockBtn.addEventListener("click", unlock);
 function unlock() {
     const pin = getPin();
 
+    // Si aún no se completan los 4 dígitos, no hacemos nada todavía
+    if (pin.length < 4) return;
+
     if (pin !== CORRECT_PIN) {
         loginCard.classList.add("shake");
-        errorText.textContent = "❤️ Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";
+        if (errorText) errorText.textContent = "❤️ Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";
 
         setTimeout(() => {
             loginCard.classList.remove("shake");
@@ -119,20 +132,22 @@ function unlock() {
         return;
     }
 
-    errorText.textContent = "";
+    if (errorText) errorText.textContent = "";
     loginCard.classList.add("fadeOut");
     setTimeout(showLetter, 1000);
 }
 
 function showLetter() {
     loginCard.style.display = "none";
-    letterSection.classList.remove("hidden");
-    letterSection.classList.add("fadeIn");
+    if (letterSection) {
+        letterSection.classList.remove("hidden");
+        letterSection.classList.add("fadeIn");
+    }
 
     const paper = document.querySelector(".paper");
 
     setTimeout(() => {
-        paper.classList.add("show");
+        if (paper) paper.classList.add("show");
         createAudioButton();
     }, 800);
 }
@@ -142,6 +157,9 @@ function showLetter() {
 ===================================================== */
 
 function createAudioButton() {
+    if (!audioContainer) return;
+    audioContainer.innerHTML = "";
+    
     const button = document.createElement("button");
     button.className = "listenBtn";
     button.innerHTML = "❤️ Escuchar mi mensaje";
@@ -150,6 +168,7 @@ function createAudioButton() {
 }
 
 function playMessage() {
+    if (!audioContainer) return;
     audioContainer.innerHTML = "";
 
     const audio = document.createElement("audio");
@@ -175,9 +194,11 @@ function showFinalMessage() {
         <strong>Con todo mi amor,<br>Valentina ❤️</strong>
     `;
 
-    document.querySelector(".paper").appendChild(final);
-
-    setTimeout(() => {
-        final.classList.add("show");
-    }, 200);
+    const paper = document.querySelector(".paper");
+    if (paper) {
+        paper.appendChild(final);
+        setTimeout(() => {
+            final.classList.add("show");
+        }, 200);
+    }
 }
