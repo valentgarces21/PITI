@@ -1,5 +1,5 @@
 /* =====================================================
-   PITI - CÓDIGO COMPLETO ULTRA SEGURO
+   PITI - CÓDIGO COMPLETO CON MENSAJE PERSONALIZADO
 ===================================================== */
 
 const CORRECT_PIN = "2405";
@@ -62,7 +62,6 @@ drawStars();
 ============================== */
 
 inputs.forEach((input, index) => {
-    // Detecta la escritura y limpia datos extraños
     input.addEventListener("input", (e) => {
         input.value = input.value.replace(/[^0-9]/g, "");
 
@@ -70,14 +69,12 @@ inputs.forEach((input, index) => {
             inputs[index + 1].focus();
         }
 
-        // Validación automática
         const currentPin = getPin();
         if (currentPin.length === 4) {
             unlock();
         }
     });
 
-    // Control al borrar con retroceso
     input.addEventListener("keydown", (e) => {
         if (e.key === "Backspace" && input.value === "") {
             if (index > 0) {
@@ -86,7 +83,6 @@ inputs.forEach((input, index) => {
         }
     });
     
-    // Soporte para presionar ENTER en móviles
     input.addEventListener("keyup", (e) => {
         if (e.key === "Enter") {
             unlock();
@@ -103,7 +99,6 @@ function clearPin() {
     if(inputs[0]) inputs[0].focus();
 }
 
-// Acción del botón físico (Ahora con doble verificación)
 if (unlockBtn) {
     unlockBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -118,7 +113,6 @@ if (unlockBtn) {
 function unlock() {
     const pin = getPin();
 
-    // Si aún no se completan los 4 dígitos, no hacemos nada todavía
     if (pin.length < 4) return;
 
     if (pin !== CORRECT_PIN) {
@@ -186,10 +180,17 @@ function playMessage() {
 function showFinalMessage() {
     const final = document.createElement("div");
     final.className = "finalMessage";
+
     final.innerHTML = `
         🌹
         <br><br>
-        Gracias por escuchar hasta el final.
+        Sabes que sigues siendo el dueño de mi corazón...
+        <br><br>
+        Y sabes que quiero todo contigo...
+        <br><br>
+        Te extraño y extraño amarnos y acompañarnos...
+        <br><br>
+        Y comer hamburguesita con coca colita.
         <br><br>
         <strong>Con todo mi amor,<br>Valentina ❤️</strong>
     `;
