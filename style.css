@@ -1,395 +1,244 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
-body{
-
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-    font-family:"Poppins",sans-serif;
-
-    background:#020814;
-
-    color:white;
-
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+    background: #020814;
+    color: white;
 }
 
-body{
-
-    position:relative;
-
+body {
+    position: relative;
 }
 
-#stars{
-
-    position:fixed;
-
-    inset:0;
-
-    width:100%;
-
-    height:100%;
-
-    z-index:0;
-
+#stars {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
-.overlay{
-
-    position:fixed;
-
-    inset:0;
-
+.overlay {
+    position: fixed;
+    inset: 0;
     background:
-
-    radial-gradient(circle at top,#12335c55,transparent 60%),
-
-    linear-gradient(#020814,#061326);
-
-    z-index:1;
-
+    radial-gradient(circle at top, #12335c55, transparent 60%),
+    linear-gradient(#020814, #061326);
+    z-index: 1;
 }
 
-.moon{
-
-    position:fixed;
-
-    right:8%;
-
-    top:8%;
-
-    width:120px;
-
-    height:120px;
-
-    border-radius:50%;
-
-    background:#fff;
-
+.moon {
+    position: fixed;
+    right: 8%;
+    top: 4%; /* Lo bajé un poquito del 8% para que no compita si subimos la tarjeta */
+    width: 90px; /* Un pelín más pequeña para pantallas móviles */
+    height: 90px;
+    border-radius: 50%;
+    background: #fff;
     box-shadow:
-
     0 0 40px white,
-
     0 0 90px #8cc8ff,
-
     0 0 160px #6bbcff;
-
-    opacity:.85;
-
-    z-index:2;
-
+    opacity: .85;
+    z-index: 2;
 }
 
-.container{
-
-    position:relative;
-
-    z-index:5;
-
-    width:100%;
-
-    height:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:30px;
-
+.container {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    
+    /* TRUCO CLAVE: Empujamos la tarjeta un 10% hacia arriba para ganarle espacio a la barra del celular */
+    padding-bottom: 12vh; 
 }
 
-.glass{
-
-    backdrop-filter:blur(18px);
-
-    background:rgba(255,255,255,.08);
-
-    border:1px solid rgba(255,255,255,.15);
-
+.glass {
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .15);
 }
 
-.card{
-
-    width:460px;
-
-    max-width:95vw;
-
-    border-radius:28px;
-
-    padding:45px;
-
-    text-align:center;
-
-    box-shadow:
-
-    0 20px 60px rgba(0,0,0,.45);
-
+.card {
+    width: 460px;
+    max-width: 95vw;
+    border-radius: 28px;
+    padding: 35px 25px; /* Reduje un poco los espacios internos para que sea más compacta */
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
 }
 
-.heart{
-
-    font-size:48px;
-
-    animation:heartbeat 2.2s infinite;
-
-    margin-bottom:20px;
-
+/* Ocultamos el botón viejo de desbloquear ya que el código pasa solo al poner el 4to dígito */
+#unlockBtn {
+    display: none !important;
 }
 
-h1{
-
-    font-family:
-
-    "Cormorant Garamond",
-
-    serif;
-
-    font-size:44px;
-
-    margin-bottom:18px;
-
+.heart {
+    font-size: 40px; /* Reducido de 48px */
+    animation: heartbeat 2.2s infinite;
+    margin-bottom: 15px;
 }
 
-.subtitle{
-
-    line-height:1.8;
-
-    font-size:17px;
-
-    color:#e7edf7;
-
+h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 36px; /* Reducido de 44px */
+    margin-bottom: 12px;
 }
 
-.divider{
-
-    width:90px;
-
-    height:1px;
-
-    background:#ffffff66;
-
-    margin:28px auto;
-
+.subtitle {
+    line-height: 1.6;
+    font-size: 15px; /* Reducido de 17px */
+    color: #e7edf7;
 }
 
-.hint{
-
-    line-height:1.8;
-
-    color:#dce8ff;
-
-    margin-bottom:30px;
-
+.divider {
+    width: 70px;
+    height: 1px;
+    background: #ffffff66;
+    margin: 20px auto;
 }
+
+.hint {
+    line-height: 1.6;
+    color: #dce8ff;
+    margin-bottom: 15px; /* Menos espacio abajo */
+    font-size: 14px;
+}
+
 /* ===========================
-   ANIMACIONES EXTRA
+    ANIMACIONES EXTRA
 =========================== */
 
-.shake{
-
-    animation:shake .45s;
-
+.shake {
+    animation: shake .45s;
 }
 
-@keyframes shake{
-
-    0%{transform:translateX(0);}
-    20%{transform:translateX(-8px);}
-    40%{transform:translateX(8px);}
-    60%{transform:translateX(-6px);}
-    80%{transform:translateX(6px);}
-    100%{transform:translateX(0);}
-
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
 }
 
-.fadeOut{
-
-    animation:fadeOut 1s forwards;
-
+.fadeOut {
+    animation: fadeOut 1s forwards;
 }
 
-@keyframes fadeOut{
-
-    from{
-
-        opacity:1;
-        transform:scale(1);
-
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
     }
-
-    to{
-
-        opacity:0;
-        transform:scale(.9);
-
+    to {
+        opacity: 0;
+        transform: scale(.9);
     }
-
 }
 
-.fadeIn{
-
-    animation:fadeIn 1.2s forwards;
-
+.fadeIn {
+    animation: fadeIn 1.2s forwards;
 }
 
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-        transform:translateY(30px);
-
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-
-    to{
-
-        opacity:1;
-        transform:translateY(0);
-
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.envelope{
-
-    transform:scale(.9);
-
-    transition:1.2s;
-
+.envelope {
+    transform: scale(.9);
+    transition: 1.2s;
 }
 
-.envelope.open{
-
-    transform:scale(1);
-
+.envelope.open {
+    transform: scale(1);
 }
 
-.paper{
-
-    opacity:0;
-
-    transform:translateY(80px);
-
-    transition:1.5s;
-
+.paper {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: 1.5s;
 }
 
-.paper.show{
-
-    opacity:1;
-
-    transform:translateY(0);
-
+.paper.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.typing{
-
-    overflow:hidden;
-
-    white-space:pre-wrap;
-
+.typing {
+    overflow: hidden;
+    white-space: pre-wrap;
 }
 
-.listenBtn{
-
-    margin-top:35px;
-
-    width:100%;
-
-    border:none;
-
-    border-radius:18px;
-
-    padding:18px;
-
-    cursor:pointer;
-
-    color:white;
-
-    background:linear-gradient(135deg,#4ea3ff,#76d0ff);
-
-    font-size:18px;
-
-    font-weight:600;
-
-    transition:.35s;
-
+.listenBtn {
+    margin-top: 35px;
+    width: 100%;
+    border: none;
+    border-radius: 18px;
+    padding: 18px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #4ea3ff, #76d0ff);
+    font-size: 18px;
+    font-weight: 600;
+    transition: .35s;
 }
 
-.listenBtn:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 15px 30px rgba(75,150,255,.35);
-
+.listenBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(75, 150, 255, .35);
 }
 
-.finalMessage{
-
-    margin-top:40px;
-
-    font-family:"Cormorant Garamond",serif;
-
-    font-size:30px;
-
-    color:#ffe4a8;
-
-    text-align:center;
-
-    opacity:0;
-
-    transition:2s;
-
+.finalMessage {
+    margin-top: 40px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 30px;
+    color: #ffe4a8;
+    text-align: center;
+    opacity: 0;
+    transition: 2s;
 }
 
-.finalMessage.show{
-
-    opacity:1;
-
+.finalMessage.show {
+    opacity: 1;
 }
 
-.starParticle{
-
-    position:fixed;
-
-    width:3px;
-
-    height:3px;
-
-    border-radius:50%;
-
-    background:white;
-
-    pointer-events:none;
-
-    animation:particle 4s linear forwards;
-
+.starParticle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: white;
+    pointer-events: none;
+    animation: particle 4s linear forwards;
 }
 
-@keyframes particle{
-
-    from{
-
-        opacity:1;
-
-        transform:translateY(0);
-
+@keyframes particle {
+    from {
+        opacity: 1;
+        transform: translateY(0);
     }
-
-    to{
-
-        opacity:0;
-
-        transform:translateY(-250px);
-
+    to {
+        opacity: 0;
+        transform: translateY(-250px);
     }
-
 }
