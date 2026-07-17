@@ -232,6 +232,30 @@
             margin-bottom: 10px;
         }
 
+        /* NUEVOS ESTILOS PARA TU VIDEO VERTICAL */
+        .video-wrapper-personalizado {
+            margin: 20px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .video-wrapper-personalizado video {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: block;
+        }
+
+        .video-descripcion {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #4a5568;
+            line-height: 1.4;
+            font-weight: 400;
+            padding: 0 5px;
+        }
+
         .finalMessage {
             font-family: "Cormorant Garamond", serif;
             font-size: 24px;
@@ -295,6 +319,17 @@
                 <!-- Contenedores para los dos audios independientes -->
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
+                
+                <!-- SECCIÓN NUEVA: TU VIDEO VERTICAL CON DEDICATORIA -->
+                <div class="video-wrapper-personalizado">
+                    <video controls>
+                        <source src="video-marzo.mp4" type="video/mp4">
+                        Tu navegador no soporta este video.
+                    </video>
+                    <p class="video-descripcion">
+                        Un video de nosotros que no sabia que tenia en mi galería pero el celular me mostró, es de marzo de este año.
+                    </p>
+                </div>
                 
                 <div class="finalMessage">
                     🌹
