@@ -265,6 +265,45 @@
             margin-top: 20px;
         }
 
+        /* INDICADOR DE DESLIZAR (SCROLL) */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+
+        .scroll-indicator span {
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .scroll-arrow {
+            font-size: 18px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
         .shake { animation: shake .45s; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -291,7 +330,6 @@
     <div class="moon"></div>
 
     <div class="container">
-        <!-- PANTALLA 1: BLOQUEO -->
         <div id="loginCard" class="card glass">
             <div class="heart">❤️</div>
             <h1>Para mi amor</h1>
@@ -310,17 +348,13 @@
             <button id="unlockBtn">❤️ Desbloquear</button>
         </div>
 
-        <!-- PANTALLA 2: CARTA -->
         <div id="letterSection" class="hidden">
-            <div class="paper">
-                <!-- Nota de orden de escucha -->
+            <div class="paper" id="paperCard">
                 <div class="order-notice">⚠️ Nota: Es importante escucharlos en orden.</div>
 
-                <!-- Contenedores para los dos audios independientes -->
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
                 
-                <!-- SECCIÓN NUEVA: TU VIDEO VERTICAL CON DEDICATORIA -->
                 <div class="video-wrapper-personalizado">
                     <video controls playsinline preload="metadata" id="miVideo">
                         <source src="" type="video/mp4">
@@ -348,6 +382,11 @@
         </div>
     </div>
 
+    <div id="scrollHint" class="scroll-indicator">
+        <span>Desliza para ver más ❤️</span>
+        <div class="scroll-arrow">🔽</div>
+    </div>
+
     <script>
         const CORRECT_PIN = "2405";
 
@@ -365,6 +404,8 @@
         const errorText = document.getElementById("errorText");
         const audioContainer1 = document.getElementById("audioContainer1");
         const audioContainer2 = document.getElementById("audioContainer2");
+        const scrollHint = document.getElementById("scrollHint");
+        const paperCard = document.getElementById("paperCard");
 
         /* --- CANVAS: ESTRELLAS Y CORAZONES CORREGIDO --- */
         const canvas = document.getElementById("stars");
@@ -517,7 +558,19 @@
             setTimeout(() => {
                 if (paper) paper.classList.add("show");
                 createAudioButtons();
+                
+                // Mostramos el aviso flotante para deslizar abajo
+                if (scrollHint) scrollHint.classList.add("visible");
             }, 500);
+        }
+
+        // Ocultar el indicador cuando el usuario empiece a deslizar dentro de la carta
+        if (paperCard) {
+            paperCard.addEventListener("scroll", () => {
+                if (paperCard.scrollTop > 15) {
+                    if (scrollHint) scrollHint.classList.remove("visible");
+                }
+            });
         }
 
         // Creamos los dos botones iniciales
@@ -539,16 +592,4 @@
         }
 
         // Función para reproducir el audio
-        function playMessage(container, audioUrl) {
-            container.innerHTML = "";
-            const audio = document.createElement("audio");
-            audio.controls = true;
-            audio.autoplay = true;
-            audio.innerHTML = `
-                <source src="${audioUrl}" type="audio/mp4">
-            `;
-            container.appendChild(audio);
-        }
-    </script>
-</body>
-</html>
+        function playMessage(container
