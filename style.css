@@ -37,17 +37,16 @@ body {
 
 .moon {
     position: fixed;
-    right: 8%;
-    top: 4%; /* Lo bajé un poquito del 8% para que no compita si subimos la tarjeta */
-    width: 90px; /* Un pelín más pequeña para pantallas móviles */
-    height: 90px;
+    right: 5%;
+    top: 2%;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: #fff;
     box-shadow:
-    0 0 40px white,
-    0 0 90px #8cc8ff,
-    0 0 160px #6bbcff;
-    opacity: .85;
+    0 0 30px white,
+    0 0 60px #8cc8ff;
+    opacity: .75;
     z-index: 2;
 }
 
@@ -59,10 +58,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    
-    /* TRUCO CLAVE: Empujamos la tarjeta un 10% hacia arriba para ganarle espacio a la barra del celular */
-    padding-bottom: 12vh; 
+    padding: 15px;
+    padding-bottom: 80px; /* Margen de seguridad móvil */
 }
 
 .glass {
@@ -72,49 +69,75 @@ body {
 }
 
 .card {
-    width: 460px;
+    width: 420px;
     max-width: 95vw;
-    border-radius: 28px;
-    padding: 35px 25px; /* Reduje un poco los espacios internos para que sea más compacta */
+    border-radius: 24px;
+    padding: 25px 20px; /* Súper compacto */
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .45);
 }
 
-/* Ocultamos el botón viejo de desbloquear ya que el código pasa solo al poner el 4to dígito */
+/* El botón ahora es compacto y siempre visible */
 #unlockBtn {
-    display: none !important;
+    margin-top: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 12px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #ff4e76, #ff7697);
+    font-size: 16px;
+    font-weight: 600;
+    transition: .35s;
+    display: block !important;
+}
+
+#unlockBtn:hover {
+    transform: translateY(-2px);
 }
 
 .heart {
-    font-size: 40px; /* Reducido de 48px */
+    font-size: 32px;
     animation: heartbeat 2.2s infinite;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 h1 {
     font-family: "Cormorant Garamond", serif;
-    font-size: 36px; /* Reducido de 44px */
-    margin-bottom: 12px;
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
 .subtitle {
-    line-height: 1.6;
-    font-size: 15px; /* Reducido de 17px */
+    line-height: 1.5;
+    font-size: 14px;
     color: #e7edf7;
 }
 
 .divider {
-    width: 70px;
+    width: 60px;
     height: 1px;
-    background: #ffffff66;
-    margin: 20px auto;
+    background: #ffffff44;
+    margin: 15px auto;
 }
 
 .hint {
-    line-height: 1.6;
+    line-height: 1.5;
     color: #dce8ff;
-    margin-bottom: 15px; /* Menos espacio abajo */
-    font-size: 14px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+/* Estilos de los cuadritos por si acaso */
+.digit {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 8px;
+    margin: 0 4px;
 }
 
 /* ===========================
