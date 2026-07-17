@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Mi Dueño ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -26,12 +26,16 @@
             position: relative;
         }
 
+        /* Forzamos al Canvas a estar visible y ocupar toda la pantalla */
         #stars {
             position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2; /* Lo ponemos por encima del fondo oscuro */
+            display: block;
+            pointer-events: none; /* Para que no interfiera con los clics */
         }
 
         .overlay {
@@ -52,13 +56,13 @@
             border-radius: 50%;
             background: #fff;
             box-shadow: 0 0 30px white, 0 0 60px #8cc8ff;
-            opacity: .75;
-            z-index: 2;
+            opacity: .4;
+            z-index: 1;
         }
 
         .container {
             position: relative;
-            z-index: 5;
+            z-index: 5; /* Asegura que la tarjeta esté por encima de la animación */
             width: 100%;
             height: 100%;
             display: flex;
@@ -70,6 +74,7 @@
 
         .glass {
             backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px); /* Compatibilidad con Safari de iPhone */
             background: rgba(255, 255, 255, .08);
             border: 1px solid rgba(255, 255, 255, .15);
         }
@@ -169,7 +174,6 @@
             display: none !important;
         }
 
-        /* Contenedor de la carta scrollable por si el texto es largo */
         .paper {
             background: rgba(255, 255, 255, 0.95);
             color: #1a2332;
@@ -190,9 +194,22 @@
             transform: translateY(0);
         }
 
-        .listenBtn {
-            margin-top: 10px;
+        .order-notice {
+            font-size: 13.5px;
+            color: #718096;
             margin-bottom: 15px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .audio-wrapper {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .listenBtn {
+            margin-top: 5px;
+            margin-bottom: 5px;
             width: 100%;
             border: none;
             border-radius: 18px;
@@ -205,10 +222,14 @@
             transition: .35s;
         }
 
+        .listenBtn.secondary {
+            background: linear-gradient(135deg, #ff7697, #ff9eb5);
+        }
+
         audio {
             width: 100%;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
         }
 
         .finalMessage {
@@ -217,6 +238,7 @@
             color: #b11e43;
             text-align: center;
             line-height: 1.6;
+            margin-top: 20px;
         }
 
         .shake { animation: shake .45s; }
@@ -264,12 +286,16 @@
             <button id="unlockBtn">❤️ Desbloquear</button>
         </div>
 
-        <!-- PANTALLA 2: CARTA (AUDIO Y MENSAJE JUNTOS) -->
+        <!-- PANTALLA 2: CARTA -->
         <div id="letterSection" class="hidden">
             <div class="paper">
-                <div id="audioContainer"></div>
+                <!-- Nota de orden de escucha -->
+                <div class="order-notice">⚠️ Nota: Es importante escucharlos en orden.</div>
+
+                <!-- Contenedores para los dos audios independientes -->
+                <div id="audioContainer1" class="audio-wrapper"></div>
+                <div id="audioContainer2" class="audio-wrapper"></div>
                 
-                <!-- El texto ahora vive aquí de forma permanente al abrirse -->
                 <div class="finalMessage">
                     🌹
                     <br><br>
@@ -290,14 +316,19 @@
     <script>
         const CORRECT_PIN = "2405";
 
+        // Enlaces de los audios de Cloudinary (Ambos listos)
+        const AUDIO_URL_1 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a";
+        const AUDIO_URL_2 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a"; 
+
         const loginCard = document.getElementById("loginCard");
         const letterSection = document.getElementById("letterSection");
         const inputs = document.querySelectorAll(".digit");
         const unlockBtn = document.getElementById("unlockBtn");
         const errorText = document.getElementById("errorText");
-        const audioContainer = document.getElementById("audioContainer");
+        const audioContainer1 = document.getElementById("audioContainer1");
+        const audioContainer2 = document.getElementById("audioContainer2");
 
-        /* --- CANVAS: ESTRELLAS Y CORAZONES --- */
+        /* --- CANVAS: ESTRELLAS Y CORAZONES CORREGIDO --- */
         const canvas = document.getElementById("stars");
         const ctx = canvas.getContext("2d");
         let elements = [];
@@ -305,23 +336,22 @@
         function resizeCanvas(){
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            createBackground();
         }
-        window.addEventListener("resize", resizeCanvas);
-        resizeCanvas();
 
         function createBackground() {
             elements = [];
-            for(let i = 0; i < 80; i++){
+            for(let i = 0; i < 70; i++){
                 elements.push({
                     type: "star",
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     size: Math.random() * 1.5 + 0.5,
                     alpha: Math.random(),
-                    speed: 0.01 + Math.random() * 0.02
+                    speed: 0.005 + Math.random() * 0.015
                 });
             }
-            for(let i = 0; i < 35; i++){
+            for(let i = 0; i < 30; i++){
                 elements.push(newHeart(true));
             }
         }
@@ -331,9 +361,9 @@
                 type: "heart",
                 x: Math.random() * canvas.width,
                 y: randomY ? Math.random() * canvas.height : canvas.height + 20,
-                size: Math.random() * 10 + 6,
-                speed: 0.4 + Math.random() * 0.7,
-                opacity: 0.15 + Math.random() * 0.4,
+                size: Math.random() * 12 + 6,
+                speed: 0.3 + Math.random() * 0.6,
+                opacity: 0.15 + Math.random() * 0.35,
                 wobble: Math.random() * 100,
                 wobbleSpeed: 0.01 + Math.random() * 0.02
             };
@@ -349,13 +379,14 @@
 
         function drawBackground(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
             elements.forEach((el, index) => {
                 if (el.type === "star") {
                     el.alpha += el.speed;
                     let currentAlpha = (Math.sin(el.alpha) + 1) / 2;
                     ctx.beginPath();
                     ctx.arc(el.x, el.y, el.size, 0, Math.PI * 2);
-                    ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.5 + ")";
+                    ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.7 + ")";
                     ctx.fill();
                 } else if (el.type === "heart") {
                     el.y -= el.speed;
@@ -365,6 +396,7 @@
                     drawHeartShape(ctx, currentX, el.y, el.size);
                     ctx.fillStyle = "rgba(255, 78, 118, " + el.opacity + ")";
                     ctx.fill();
+                    
                     if (el.y < -20) {
                         elements[index] = newHeart(false);
                     }
@@ -372,7 +404,9 @@
             });
             requestAnimationFrame(drawBackground);
         }
-        createBackground();
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
         drawBackground();
 
         /* --- CONTROL DEL PIN --- */
@@ -438,28 +472,38 @@
             const paper = document.querySelector(".paper");
             setTimeout(() => {
                 if (paper) paper.classList.add("show");
-                createAudioButton();
+                createAudioButtons();
             }, 500);
         }
 
-        function createAudioButton() {
-            audioContainer.innerHTML = "";
-            const button = document.createElement("button");
-            button.className = "listenBtn";
-            button.innerHTML = "❤️ Escuchar mi mensaje";
-            button.onclick = playMessage;
-            audioContainer.appendChild(button);
+        // Creamos los dos botones iniciales
+        function createAudioButtons() {
+            audioContainer1.innerHTML = "";
+            audioContainer2.innerHTML = "";
+
+            const button1 = document.createElement("button");
+            button1.className = "listenBtn";
+            button1.innerHTML = "❤️ Escuchar mensaje (Parte 1)";
+            button1.onclick = () => playMessage(audioContainer1, AUDIO_URL_1);
+            audioContainer1.appendChild(button1);
+
+            const button2 = document.createElement("button");
+            button2.className = "listenBtn secondary";
+            button2.innerHTML = "💕 Escuchar mensaje (Parte 2)";
+            button2.onclick = () => playMessage(audioContainer2, AUDIO_URL_2);
+            audioContainer2.appendChild(button2);
         }
 
-        function playMessage() {
-            audioContainer.innerHTML = "";
+        // Función para reproducir el audio
+        function playMessage(container, audioUrl) {
+            container.innerHTML = "";
             const audio = document.createElement("audio");
             audio.controls = true;
             audio.autoplay = true;
             audio.innerHTML = `
-                <source src="https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a" type="audio/mp4">
+                <source src="${audioUrl}" type="audio/mp4">
             `;
-            audioContainer.appendChild(audio);
+            container.appendChild(audio);
         }
     </script>
 </body>
