@@ -1,233 +1,124 @@
-.pin{
-    display:flex;
-    justify-content:center;
-    gap:14px;
-    margin-bottom:30px;
-}
+/* =====================================================
+   PITI
+   Parte 1
+===================================================== */
 
-.digit{
+const CORRECT_PIN = "2405";
 
-    width:60px;
-    height:70px;
+const loginCard = document.getElementById("loginCard");
+const letterSection = document.getElementById("letterSection");
 
-    border-radius:18px;
+const inputs = document.querySelectorAll(".digit");
 
-    border:1px solid rgba(255,255,255,.25);
+const unlockBtn = document.getElementById("unlockBtn");
 
-    background:rgba(255,255,255,.08);
+const errorText = document.getElementById("errorText");
 
-    color:white;
+const audioContainer = document.getElementById("audioContainer");
 
-    text-align:center;
+/* ==============================
+      CANVAS ESTRELLAS
+============================== */
 
-    font-size:28px;
+const canvas = document.getElementById("stars");
 
-    outline:none;
+const ctx = canvas.getContext("2d");
 
-    transition:.3s;
+let stars = [];
 
-}
+function resizeCanvas(){
 
-.digit:focus{
-
-    border-color:#8ec5ff;
-
-    transform:translateY(-3px);
-
-    box-shadow:0 0 20px #8ec5ff66;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
 }
 
-button{
+window.addEventListener("resize",resizeCanvas);
 
-    width:100%;
+resizeCanvas();
 
-    border:none;
+function createStars(){
 
-    cursor:pointer;
+    stars=[];
 
-    border-radius:18px;
+    for(let i=0;i<260;i++){
 
-    padding:18px;
+        stars.push({
 
-    background:linear-gradient(135deg,#5ba8ff,#83d0ff);
+            x:Math.random()*canvas.width,
 
-    color:white;
+            y:Math.random()*canvas.height,
 
-    font-size:17px;
+            r:Math.random()*2,
 
-    font-weight:600;
+            a:Math.random(),
 
-    transition:.35s;
+            speed:.002+Math.random()*.004
 
-}
+        });
 
-button:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 15px 30px rgba(70,150,255,.35);
+    }
 
 }
 
-#errorText{
+createStars();
 
-    margin-top:18px;
+function drawStars(){
 
-    color:#ffd2d2;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    min-height:25px;
+    stars.forEach(star=>{
 
-}
+        star.a+=star.speed;
 
-.hidden{
+        let alpha=(Math.sin(star.a)+1)/2;
 
-    display:none;
+        ctx.beginPath();
 
-}
+        ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
 
-.envelope{
+        ctx.fillStyle="rgba(255,255,255,"+alpha+")";
 
-    position:relative;
+        ctx.fill();
 
-    width:650px;
+    });
 
-    max-width:92vw;
-
-    animation:fadeIn 1.2s;
+    requestAnimationFrame(drawStars);
 
 }
 
-.paper{
+drawStars();
 
-    background:white;
+/* ==============================
+      INPUT PIN
+============================== */
 
-    color:#333;
+inputs.forEach((input,index)=>{
 
-    border-radius:20px;
+    input.addEventListener("input",()=>{
 
-    padding:50px;
+        input.value=input.value.replace(/[^0-9]/g,"");
 
-    box-shadow:0 25px 60px rgba(0,0,0,.45);
+        if(input.value && index<inputs.length-1){
 
-}
+            inputs[index+1].focus();
 
-.paper h2{
+        }
 
-    color:#12335c;
+    });
 
-    margin-bottom:30px;
+    input.addEventListener("keydown",(e)=>{
 
-    text-align:center;
+        if(e.key==="Backspace" && input.value===""){
 
-}
+            if(index>0){
 
-.paper p{
+                inputs[index-1].focus();
 
-    line-height:1.9;
+            }
 
-    margin-bottom:18px;
+        }
 
-    font-size:17px;
+    });
 
-}
-
-#audioContainer{
-
-    margin-top:35px;
-
-    text-align:center;
-
-}
-
-audio{
-
-    width:100%;
-
-}
-
-.signature{
-
-    margin-top:45px;
-
-    text-align:center;
-
-    color:#12335c;
-
-    font-size:22px;
-
-    font-family:"Cormorant Garamond",serif;
-
-}
-
-@keyframes heartbeat{
-
-0%{transform:scale(1)}
-
-25%{transform:scale(1.15)}
-
-40%{transform:scale(1)}
-
-65%{transform:scale(1.15)}
-
-100%{transform:scale(1)}
-
-}
-
-@keyframes fadeIn{
-
-from{
-
-opacity:0;
-
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-@media(max-width:650px){
-
-.card{
-
-padding:28px;
-
-}
-
-.paper{
-
-padding:30px;
-
-}
-
-.digit{
-
-width:50px;
-
-height:60px;
-
-font-size:24px;
-
-}
-
-h1{
-
-font-size:34px;
-
-}
-
-.subtitle{
-
-font-size:15px;
-
-}
-
-}
+});
