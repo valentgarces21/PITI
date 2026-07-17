@@ -26,16 +26,15 @@
             position: relative;
         }
 
-        /* Forzamos al Canvas a estar visible y ocupar toda la pantalla */
         #stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 2; /* Lo ponemos por encima del fondo oscuro */
+            z-index: 2;
             display: block;
-            pointer-events: none; /* Para que no interfiera con los clics */
+            pointer-events: none;
         }
 
         .overlay {
@@ -62,19 +61,19 @@
 
         .container {
             position: relative;
-            z-index: 5; /* Asegura que la tarjeta esté por encima de la animación */
+            z-index: 5;
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 15px;
-            padding-bottom: 80px;
+            padding-bottom: 20px;
         }
 
         .glass {
             backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px); /* Compatibilidad con Safari de iPhone */
+            -webkit-backdrop-filter: blur(18px);
             background: rgba(255, 255, 255, .08);
             border: 1px solid rgba(255, 255, 255, .15);
         }
@@ -89,11 +88,11 @@
         }
 
         #unlockBtn {
-            margin-top: 15px;
+            margin-top: 20px;
             width: 100%;
             border: none;
             border-radius: 14px;
-            padding: 12px;
+            padding: 14px;
             cursor: pointer;
             color: white;
             background: linear-gradient(135deg, #ff4e76, #ff7697);
@@ -103,8 +102,8 @@
             display: block !important;
         }
 
-        #unlockBtn:hover {
-            transform: translateY(-2px);
+        #unlockBtn:active {
+            transform: scale(0.98);
         }
 
         .heart {
@@ -160,14 +159,15 @@
 
         .digit:focus {
             border-color: #ff4e76;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         #errorText {
             color: #ff7697;
             font-size: 13px;
-            margin-top: 10px;
+            margin-top: 12px;
             min-height: 18px;
+            line-height: 1.4;
         }
 
         .hidden {
@@ -181,12 +181,12 @@
             border-radius: 20px;
             width: 100%;
             max-width: 400px;
-            max-height: 75vh;
+            max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             opacity: 0;
-            transform: translateY(40px);
-            transition: 1.5s;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
         }
 
         .paper.show {
@@ -232,7 +232,6 @@
             margin-bottom: 10px;
         }
 
-        /* NUEVOS ESTILOS PARA TU VIDEO VERTICAL */
         .video-wrapper-personalizado {
             margin: 20px 0;
             text-align: center;
@@ -265,43 +264,25 @@
             margin-top: 20px;
         }
 
-        /* INDICADOR DE DESLIZAR (SCROLL) */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+        .inline-scroll-indicator {
+            background: rgba(255, 78, 118, 0.1);
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 13px;
-            font-weight: 500;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            gap: 8px;
+            color: #ff4e76;
+            font-size: 13.5px;
+            font-weight: 600;
+            animation: pulse-light 2s infinite ease-in-out;
         }
 
-        .scroll-indicator.visible {
-            opacity: 1;
-        }
-
-        .scroll-indicator span {
-            margin-bottom: 2px;
-            letter-spacing: 0.5px;
-        }
-
-        .scroll-arrow {
-            font-size: 18px;
-            animation: bounce 1.5s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
+        @keyframes pulse-light {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
 
         .shake { animation: shake .45s; }
@@ -311,12 +292,12 @@
             40%, 80% { transform: translateX(8px); }
         }
 
-        .fadeOut { animation: fadeOut 0.8s forwards; }
+        .fadeOut { animation: fadeOut 0.4s forwards; }
         @keyframes fadeOut {
-            to { opacity: 0; transform: scale(.9); }
+            to { opacity: 0; transform: scale(.95); }
         }
 
-        .fadeIn { animation: fadeIn 1s forwards; }
+        .fadeIn { animation: fadeIn 0.4s forwards; }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -330,6 +311,7 @@
     <div class="moon"></div>
 
     <div class="container">
+        <!-- PANTALLA 1: BLOQUEO -->
         <div id="loginCard" class="card glass">
             <div class="heart">❤️</div>
             <h1>Para mi amor</h1>
@@ -338,16 +320,17 @@
             <p class="hint">Ingresa los 4 dígitos del PIN para desbloquear el mensaje.</p>
             
             <div class="pin-container">
-                <input type="text" class="digit" maxlength="1" inputmode="numeric">
-                <input type="text" class="digit" maxlength="1" inputmode="numeric">
-                <input type="text" class="digit" maxlength="1" inputmode="numeric">
-                <input type="text" class="digit" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric" autocomplete="off">
             </div>
             
             <div id="errorText"></div>
             <button id="unlockBtn">❤️ Desbloquear</button>
         </div>
 
+        <!-- PANTALLA 2: CARTA -->
         <div id="letterSection" class="hidden">
             <div class="paper" id="paperCard">
                 <div class="order-notice">⚠️ Nota: Es importante escucharlos en orden.</div>
@@ -355,6 +338,10 @@
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
                 
+                <div class="inline-scroll-indicator">
+                    <span>Desliza hacia abajo para ver el video</span> 👇
+                </div>
+
                 <div class="video-wrapper-personalizado">
                     <video controls playsinline preload="metadata" id="miVideo">
                         <source src="" type="video/mp4">
@@ -382,19 +369,11 @@
         </div>
     </div>
 
-    <div id="scrollHint" class="scroll-indicator">
-        <span>Desliza para ver más ❤️</span>
-        <div class="scroll-arrow">🔽</div>
-    </div>
-
     <script>
         const CORRECT_PIN = "2405";
 
-        // Enlaces de los audios de Cloudinary (Ambos listos)
         const AUDIO_URL_1 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a";
         const AUDIO_URL_2 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a"; 
-
-        // Enlace de tu video de Cloudinary integrado directamente aquí:
         const VIDEO_URL = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784328829/video-marzo.mp4_qbcfxa.mp4";
 
         const loginCard = document.getElementById("loginCard");
@@ -404,10 +383,8 @@
         const errorText = document.getElementById("errorText");
         const audioContainer1 = document.getElementById("audioContainer1");
         const audioContainer2 = document.getElementById("audioContainer2");
-        const scrollHint = document.getElementById("scrollHint");
-        const paperCard = document.getElementById("paperCard");
 
-        /* --- CANVAS: ESTRELLAS Y CORAZONES CORREGIDO --- */
+        /* --- CANVAS OPTIMIZADO --- */
         const canvas = document.getElementById("stars");
         const ctx = canvas.getContext("2d");
         let elements = [];
@@ -420,17 +397,17 @@
 
         function createBackground() {
             elements = [];
-            for(let i = 0; i < 70; i++){
+            for(let i = 0; i < 35; i++){
                 elements.push({
                     type: "star",
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5 + 0.5,
+                    size: Math.random() * 1.2 + 0.5,
                     alpha: Math.random(),
-                    speed: 0.005 + Math.random() * 0.015
+                    speed: 0.01
                 });
             }
-            for(let i = 0; i < 30; i++){
+            for(let i = 0; i < 12; i++){
                 elements.push(newHeart(true));
             }
         }
@@ -440,11 +417,11 @@
                 type: "heart",
                 x: Math.random() * canvas.width,
                 y: randomY ? Math.random() * canvas.height : canvas.height + 20,
-                size: Math.random() * 12 + 6,
-                speed: 0.3 + Math.random() * 0.6,
-                opacity: 0.15 + Math.random() * 0.35,
+                size: Math.random() * 10 + 5,
+                speed: 0.4 + Math.random() * 0.4,
+                opacity: 0.2 + Math.random() * 0.2,
                 wobble: Math.random() * 100,
-                wobbleSpeed: 0.01 + Math.random() * 0.02
+                wobbleSpeed: 0.01
             };
         }
 
@@ -458,27 +435,23 @@
 
         function drawBackground(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             elements.forEach((el, index) => {
                 if (el.type === "star") {
                     el.alpha += el.speed;
                     let currentAlpha = (Math.sin(el.alpha) + 1) / 2;
                     ctx.beginPath();
                     ctx.arc(el.x, el.y, el.size, 0, Math.PI * 2);
-                    ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.7 + ")";
+                    ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.4 + ")";
                     ctx.fill();
                 } else if (el.type === "heart") {
                     el.y -= el.speed;
                     el.wobble += el.wobbleSpeed;
-                    let currentX = el.x + Math.sin(el.wobble) * 12;
+                    let currentX = el.x + Math.sin(el.wobble) * 6;
                     ctx.beginPath();
                     drawHeartShape(ctx, currentX, el.y, el.size);
                     ctx.fillStyle = "rgba(255, 78, 118, " + el.opacity + ")";
                     ctx.fill();
-                    
-                    if (el.y < -20) {
-                        elements[index] = newHeart(false);
-                    }
+                    if (el.y < -20) elements[index] = newHeart(false);
                 }
             });
             requestAnimationFrame(drawBackground);
@@ -488,27 +461,31 @@
         resizeCanvas();
         drawBackground();
 
-        /* --- CONTROL DEL PIN --- */
+        /* --- CONTROL ROBUSTO DEL PIN --- */
         inputs.forEach((input, index) => {
             input.addEventListener("input", () => {
                 input.value = input.value.replace(/[^0-9]/g, "");
+                
+                // Mover al siguiente cuadro si tiene número
                 if (input.value && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
+                    setTimeout(() => inputs[index + 1].focus(), 10);
                 }
+                
+                // Intento de auto-validación al llenar los 4 campos
                 if (getPin().length === 4) {
-                    unlock();
+                    checkAndUnlock();
                 }
             });
 
             input.addEventListener("keydown", (e) => {
-                if (e.key === "Backspace" && input.value === "") {
-                    if (index > 0) inputs[index - 1].focus();
+                if (e.key === "Backspace" && input.value === "" && index > 0) {
+                    inputs[index - 1].focus();
                 }
             });
         });
 
         function getPin() {
-            return [...inputs].map(input => input.value.trim()).join("");
+            return Array.from(inputs).map(input => input.value.trim()).join("");
         }
 
         function clearPin() {
@@ -516,31 +493,30 @@
             if(inputs[0]) inputs[0].focus();
         }
 
+        // Evento directo del botón
         if (unlockBtn) {
             unlockBtn.addEventListener("click", (e) => {
                 e.preventDefault();
-                unlock();
+                checkAndUnlock();
             });
         }
 
-        /* --- LÓGICA DE DESBLOQUEO --- */
-        function unlock() {
+        function checkAndUnlock() {
             const pin = getPin();
-            if (pin.length < 4) return;
+            if (pin.length < 4) return; // Espera a tener los 4 dígitos
 
-            if (pin !== CORRECT_PIN) {
+            if (pin === CORRECT_PIN) {
+                errorText.textContent = "";
+                loginCard.classList.add("fadeOut");
+                setTimeout(showLetter, 400);
+            } else {
                 loginCard.classList.add("shake");
                 errorText.textContent = "❤️ Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";
                 setTimeout(() => {
                     loginCard.classList.remove("shake");
                     clearPin();
                 }, 500);
-                return;
             }
-
-            errorText.textContent = "";
-            loginCard.classList.add("fadeOut");
-            setTimeout(showLetter, 800);
         }
 
         function showLetter() {
@@ -548,7 +524,6 @@
             letterSection.classList.remove("hidden");
             letterSection.classList.add("fadeIn");
             
-            // Asignamos el video al abrir la carta
             const videoElement = document.getElementById("miVideo");
             if (videoElement && VIDEO_URL) {
                 videoElement.src = VIDEO_URL;
@@ -558,22 +533,9 @@
             setTimeout(() => {
                 if (paper) paper.classList.add("show");
                 createAudioButtons();
-                
-                // Mostramos el aviso flotante para deslizar abajo
-                if (scrollHint) scrollHint.classList.add("visible");
-            }, 500);
+            }, 100);
         }
 
-        // Ocultar el indicador cuando el usuario empiece a deslizar dentro de la carta
-        if (paperCard) {
-            paperCard.addEventListener("scroll", () => {
-                if (paperCard.scrollTop > 15) {
-                    if (scrollHint) scrollHint.classList.remove("visible");
-                }
-            });
-        }
-
-        // Creamos los dos botones iniciales
         function createAudioButtons() {
             audioContainer1.innerHTML = "";
             audioContainer2.innerHTML = "";
@@ -591,5 +553,14 @@
             audioContainer2.appendChild(button2);
         }
 
-        // Función para reproducir el audio
-        function playMessage(container
+        function playMessage(container, audioUrl) {
+            container.innerHTML = "";
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.autoplay = true;
+            audio.innerHTML = `<source src="${audioUrl}" type="video/mp4">`;
+            container.appendChild(audio);
+        }
+    </script>
+</body>
+</html>
