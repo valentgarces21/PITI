@@ -1,1 +1,0 @@
-function check(){let p=document.getElementById("pw").value;if(p==="2405"){document.getElementById("secret").style.display="block";document.getElementById("msg").textContent="❤️";}else{document.getElementById("msg").textContent="Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";}}
