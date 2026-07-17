@@ -1,0 +1,1 @@
+function unlock(){if(document.getElementById('pass').value==='2405'){login.style.display='none';letter.classList.remove('hidden')}else err.textContent='Piensa en la fecha de nuestro aniversario ❤️';}
