@@ -197,3 +197,66 @@ function showLetter() {
     }, 800);
 
 }
+/* =====================================================
+   PARTE 3 - BOTÓN DE AUDIO Y MENSAJE FINAL
+===================================================== */
+
+function createAudioButton() {
+
+    const button = document.createElement("button");
+
+    button.className = "listenBtn";
+
+    button.innerHTML = "❤️ Escuchar mi mensaje";
+
+    button.onclick = playMessage;
+
+    audioContainer.appendChild(button);
+
+}
+
+function playMessage() {
+
+    audioContainer.innerHTML = "";
+
+    const audio = document.createElement("audio");
+
+    audio.controls = true;
+
+    audio.autoplay = true;
+
+    audio.innerHTML = `
+        <source
+        src="https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a"
+        type="audio/mp4">
+    `;
+
+    audioContainer.appendChild(audio);
+
+    audio.addEventListener("ended", showFinalMessage);
+
+}
+
+function showFinalMessage() {
+
+    const final = document.createElement("div");
+
+    final.className = "finalMessage";
+
+    final.innerHTML = `
+        🌹
+        <br><br>
+        Gracias por escuchar hasta el final.
+        <br><br>
+        <strong>Con todo mi amor,<br>Valentina ❤️</strong>
+    `;
+
+    document.querySelector(".paper").appendChild(final);
+
+    setTimeout(() => {
+
+        final.classList.add("show");
+
+    },200);
+
+}
