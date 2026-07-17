@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para el dueño mi ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,700;1,400&family=Poppins:wght=400;600&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -322,8 +322,8 @@
                 
                 <!-- SECCIÓN NUEVA: TU VIDEO VERTICAL CON DEDICATORIA -->
                 <div class="video-wrapper-personalizado">
-                    <video controls>
-                        <source src="video-marzo.mp4" type="video/mp4">
+                    <video controls playsinline preload="metadata" id="miVideo">
+                        <source src="" type="video/mp4">
                         Tu navegador no soporta este video.
                     </video>
                     <p class="video-descripcion">
@@ -354,6 +354,9 @@
         // Enlaces de los audios de Cloudinary (Ambos listos)
         const AUDIO_URL_1 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a";
         const AUDIO_URL_2 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a"; 
+
+        // Enlace de tu video de Cloudinary integrado directamente aquí:
+        const VIDEO_URL = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784328829/video-marzo.mp4_qbcfxa.mp4";
 
         const loginCard = document.getElementById("loginCard");
         const letterSection = document.getElementById("letterSection");
@@ -504,6 +507,12 @@
             letterSection.classList.remove("hidden");
             letterSection.classList.add("fadeIn");
             
+            // Asignamos el video al abrir la carta
+            const videoElement = document.getElementById("miVideo");
+            if (videoElement && VIDEO_URL) {
+                videoElement.src = VIDEO_URL;
+            }
+
             const paper = document.querySelector(".paper");
             setTimeout(() => {
                 if (paper) paper.classList.add("show");
