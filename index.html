@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Mi Dueño ❤️</title>
-    <!-- Fuentes elegantes -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* =====================================================
-           DISEÑO (CSS) - TARJETA COMPACTA Y MODERNA
-        ===================================================== */
         * {
             margin: 0;
             padding: 0;
@@ -69,7 +65,7 @@
             justify-content: center;
             align-items: center;
             padding: 15px;
-            padding-bottom: 80px; /* Evita que las barras del celular tapen la tarjeta */
+            padding-bottom: 80px;
         }
 
         .glass {
@@ -137,7 +133,6 @@
             font-size: 13px;
         }
 
-        /* Bloques de la clave */
         .pin-container {
             display: flex;
             justify-content: center;
@@ -170,18 +165,20 @@
             min-height: 18px;
         }
 
-        /* Sección de la Carta */
         .hidden {
             display: none !important;
         }
 
+        /* Contenedor de la carta scrollable por si el texto es largo */
         .paper {
             background: rgba(255, 255, 255, 0.95);
             color: #1a2332;
-            padding: 30px 20px;
+            padding: 25px 20px;
             border-radius: 20px;
             width: 100%;
             max-width: 400px;
+            max-height: 75vh;
+            overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             opacity: 0;
             transform: translateY(40px);
@@ -194,7 +191,8 @@
         }
 
         .listenBtn {
-            margin-top: 25px;
+            margin-top: 10px;
+            margin-bottom: 15px;
             width: 100%;
             border: none;
             border-radius: 18px;
@@ -209,25 +207,18 @@
 
         audio {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
         .finalMessage {
-            margin-top: 30px;
             font-family: "Cormorant Garamond", serif;
             font-size: 24px;
             color: #b11e43;
             text-align: center;
-            opacity: 0;
-            transition: 2s;
             line-height: 1.6;
         }
 
-        .finalMessage.show {
-            opacity: 1;
-        }
-
-        /* Animación de error */
         .shake { animation: shake .45s; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -249,7 +240,6 @@
 </head>
 <body>
 
-    <!-- Fondo de estrellas y corazones -->
     <canvas id="stars"></canvas>
     <div class="overlay"></div>
     <div class="moon"></div>
@@ -274,19 +264,29 @@
             <button id="unlockBtn">❤️ Desbloquear</button>
         </div>
 
-        <!-- PANTALLA 2: CARTA Y AUDIO -->
+        <!-- PANTALLA 2: CARTA (AUDIO Y MENSAJE JUNTOS) -->
         <div id="letterSection" class="hidden">
             <div class="paper">
-                <div id="audioContainer">
-                    <!-- El botón de audio se creará aquí -->
+                <div id="audioContainer"></div>
+                
+                <!-- El texto ahora vive aquí de forma permanente al abrirse -->
+                <div class="finalMessage">
+                    🌹
+                    <br><br>
+                    Sabes que sigues siendo el dueño de mi corazón...
+                    <br><br>
+                    Y sabes que quiero todo contigo...
+                    <br><br>
+                    Te extraño y extraño amarnos y acompañarnos...
+                    <br><br>
+                    Y comer hamburguesita con coca colita.
+                    <br><br>
+                    <strong>Con todo mi amor,<br>Valentina ❤️</strong>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- =====================================================
-       LÓGICA (JAVASCRIPT) - CORAZONES, PIN Y MENSAJE FINAL
-    ===================================================== */ -->
     <script>
         const CORRECT_PIN = "2405";
 
@@ -410,7 +410,7 @@
             });
         }
 
-        /* --- LOGICA DE DESBLOQUEO --- */
+        /* --- LÓGICA DE DESBLOQUEO --- */
         function unlock() {
             const pin = getPin();
             if (pin.length < 4) return;
@@ -442,7 +442,6 @@
             }, 500);
         }
 
-        /* --- AUDIO Y MENSAJE DE VALENTINA --- */
         function createAudioButton() {
             audioContainer.innerHTML = "";
             const button = document.createElement("button");
@@ -461,29 +460,6 @@
                 <source src="https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a" type="audio/mp4">
             `;
             audioContainer.appendChild(audio);
-            audio.addEventListener("ended", showFinalMessage);
-        }
-
-        function showFinalMessage() {
-            const final = document.createElement("div");
-            final.className = "finalMessage";
-            final.innerHTML = `
-                🌹
-                <br><br>
-                Sabes que sigues siendo el dueño de mi corazón...
-                <br><br>
-                Y sabes que quiero todo contigo...
-                <br><br>
-                Te extraño y extraño amarnos y acompañarnos...
-                <br><br>
-                Y comer hamburguesita con coca colita.
-                <br><br>
-                <strong>Con todo mi amor,<br>Valentina ❤️</strong>
-            `;
-            document.querySelector(".paper").appendChild(final);
-            setTimeout(() => {
-                final.classList.add("show");
-            }, 200);
         }
     </script>
 </body>
