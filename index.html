@@ -264,10 +264,11 @@
             margin-top: 20px;
         }
 
+        /* TEXTO CORREGIDO Y ENFOCADO EN LEER LA NOTA */
         .inline-scroll-indicator {
             background: rgba(255, 78, 118, 0.1);
             border-radius: 12px;
-            padding: 10px;
+            padding: 12px 10px;
             margin-top: 15px;
             margin-bottom: 15px;
             display: flex;
@@ -275,8 +276,10 @@
             align-items: center;
             gap: 8px;
             color: #ff4e76;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
             animation: pulse-light 2s infinite ease-in-out;
         }
 
@@ -338,8 +341,9 @@
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
                 
+                <!-- SECCIÓN DEL INDICADOR CLARO CON LA NUEVA PALABRA -->
                 <div class="inline-scroll-indicator">
-                    <span>Desliza hacia abajo para ver el video</span> 👇
+                    <span>Desliza abajo para ver el video y leer tu nota final</span> 👇
                 </div>
 
                 <div class="video-wrapper-personalizado">
@@ -384,7 +388,6 @@
         const audioContainer1 = document.getElementById("audioContainer1");
         const audioContainer2 = document.getElementById("audioContainer2");
 
-        /* --- CANVAS OPTIMIZADO --- */
         const canvas = document.getElementById("stars");
         const ctx = canvas.getContext("2d");
         let elements = [];
@@ -461,17 +464,12 @@
         resizeCanvas();
         drawBackground();
 
-        /* --- CONTROL ROBUSTO DEL PIN --- */
         inputs.forEach((input, index) => {
             input.addEventListener("input", () => {
                 input.value = input.value.replace(/[^0-9]/g, "");
-                
-                // Mover al siguiente cuadro si tiene número
                 if (input.value && index < inputs.length - 1) {
                     setTimeout(() => inputs[index + 1].focus(), 10);
                 }
-                
-                // Intento de auto-validación al llenar los 4 campos
                 if (getPin().length === 4) {
                     checkAndUnlock();
                 }
@@ -493,7 +491,6 @@
             if(inputs[0]) inputs[0].focus();
         }
 
-        // Evento directo del botón
         if (unlockBtn) {
             unlockBtn.addEventListener("click", (e) => {
                 e.preventDefault();
@@ -503,7 +500,7 @@
 
         function checkAndUnlock() {
             const pin = getPin();
-            if (pin.length < 4) return; // Espera a tener los 4 dígitos
+            if (pin.length < 4) return;
 
             if (pin === CORRECT_PIN) {
                 errorText.textContent = "";
