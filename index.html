@@ -1,1 +1,142 @@
-<div id="letter" class="card hidden"></div>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Para ti ❤️</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <canvas id="stars"></canvas>
+
+    <div class="moon"></div>
+
+    <div class="overlay"></div>
+
+    <main class="container">
+
+        <!-- PANTALLA CONTRASEÑA -->
+
+        <section class="card glass" id="loginCard">
+
+            <div class="heart">❤</div>
+
+            <h1>Para ti, Radip</h1>
+
+            <p class="subtitle">
+
+                Si encontraste este lugar...
+
+                <br><br>
+
+                es porque este momento estaba esperando por ti.
+
+            </p>
+
+            <div class="divider"></div>
+
+            <p class="hint">
+
+                🔐 La clave tiene <strong>4 dígitos.</strong>
+
+                <br>
+
+                Es la fecha de nuestro aniversario.
+
+            </p>
+
+            <div class="pin">
+
+                <input maxlength="1" class="digit">
+
+                <input maxlength="1" class="digit">
+
+                <input maxlength="1" class="digit">
+
+                <input maxlength="1" class="digit">
+
+            </div>
+
+            <button id="unlockBtn">
+
+                Desbloquear
+
+            </button>
+
+            <p id="errorText"></p>
+
+        </section>
+
+        <!-- CARTA -->
+
+        <section id="letterSection" class="hidden">
+
+            <div class="envelope">
+
+                <div class="flap"></div>
+
+                <div class="paper">
+
+                    <h2>Para ti, Radip ❤️</h2>
+
+                    <p>
+
+                        Hay recuerdos que nunca dejan de existir.
+
+                    </p>
+
+                    <p>
+
+                        Hay personas que llegan para cambiar nuestra vida.
+
+                    </p>
+
+                    <p>
+
+                        Y hay palabras que solamente pueden decirse con la voz.
+
+                    </p>
+
+                    <p>
+
+                        Este pequeño rincón existe únicamente para ti.
+
+                    </p>
+
+                    <div id="audioContainer">
+
+                    </div>
+
+                    <div class="signature">
+
+                        Con todo mi amor
+
+                        <br><br>
+
+                        <strong>Valentina ❤️</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
