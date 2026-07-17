@@ -1,142 +1,490 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Dueño ❤️</title>
+    <!-- Fuentes elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =====================================================
+           DISEÑO (CSS) - TARJETA COMPACTA Y MODERNA
+        ===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Para ti ❤️</title>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Poppins", sans-serif;
+            background: #020814;
+            color: white;
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        body {
+            position: relative;
+        }
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        #stars {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background:
+            radial-gradient(circle at top, #12335c55, transparent 60%),
+            linear-gradient(#020814, #061326);
+            z-index: 1;
+        }
+
+        .moon {
+            position: fixed;
+            right: 5%;
+            top: 2%;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 30px white, 0 0 60px #8cc8ff;
+            opacity: .75;
+            z-index: 2;
+        }
+
+        .container {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            padding-bottom: 80px; /* Evita que las barras del celular tapen la tarjeta */
+        }
+
+        .glass {
+            backdrop-filter: blur(18px);
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .15);
+        }
+
+        .card {
+            width: 420px;
+            max-width: 95vw;
+            border-radius: 24px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .45);
+        }
+
+        #unlockBtn {
+            margin-top: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 12px;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, #ff4e76, #ff7697);
+            font-size: 16px;
+            font-weight: 600;
+            transition: .35s;
+            display: block !important;
+        }
+
+        #unlockBtn:hover {
+            transform: translateY(-2px);
+        }
+
+        .heart {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            line-height: 1.5;
+            font-size: 14px;
+            color: #e7edf7;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: #ffffff44;
+            margin: 15px auto;
+        }
+
+        .hint {
+            line-height: 1.5;
+            color: #dce8ff;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        /* Bloques de la clave */
+        .pin-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .digit {
+            width: 45px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            font-size: 22px;
+            border-radius: 10px;
+            margin: 0 6px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .digit:focus {
+            border-color: #ff4e76;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #errorText {
+            color: #ff7697;
+            font-size: 13px;
+            margin-top: 10px;
+            min-height: 18px;
+        }
+
+        /* Sección de la Carta */
+        .hidden {
+            display: none !important;
+        }
+
+        .paper {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a2332;
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 1.5s;
+        }
+
+        .paper.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .listenBtn {
+            margin-top: 25px;
+            width: 100%;
+            border: none;
+            border-radius: 18px;
+            padding: 15px;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, #4ea3ff, #76d0ff);
+            font-size: 17px;
+            font-weight: 600;
+            transition: .35s;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .finalMessage {
+            margin-top: 30px;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 24px;
+            color: #b11e43;
+            text-align: center;
+            opacity: 0;
+            transition: 2s;
+            line-height: 1.6;
+        }
+
+        .finalMessage.show {
+            opacity: 1;
+        }
+
+        /* Animación de error */
+        .shake { animation: shake .45s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .fadeOut { animation: fadeOut 0.8s forwards; }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: scale(.9); }
+        }
+
+        .fadeIn { animation: fadeIn 1s forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
-
 <body>
 
+    <!-- Fondo de estrellas y corazones -->
     <canvas id="stars"></canvas>
-
+    <div class="overlay"></div>
     <div class="moon"></div>
 
-    <div class="overlay"></div>
-
-    <main class="container">
-
-        <!-- PANTALLA CONTRASEÑA -->
-
-        <section class="card glass" id="loginCard">
-
-            <div class="heart">❤</div>
-
-            <h1>Para ti, Radip</h1>
-
-            <p class="subtitle">
-
-                Si encontraste este lugar...
-
-                <br><br>
-
-                es porque este momento estaba esperando por ti.
-
-            </p>
-
+    <div class="container">
+        <!-- PANTALLA 1: BLOQUEO -->
+        <div id="loginCard" class="card glass">
+            <div class="heart">❤️</div>
+            <h1>Para mi amor</h1>
+            <p class="subtitle">Este es un espacio secreto que preparé para ti.</p>
             <div class="divider"></div>
-
-            <p class="hint">
-
-                🔐 La clave tiene <strong>4 dígitos.</strong>
-
-                <br>
-
-                Es la fecha de nuestro aniversario.
-
-            </p>
-
-            <div class="pin">
-
-                <input maxlength="1" class="digit">
-
-                <input maxlength="1" class="digit">
-
-                <input maxlength="1" class="digit">
-
-                <input maxlength="1" class="digit">
-
+            <p class="hint">Ingresa los 4 dígitos del PIN para desbloquear el mensaje.</p>
+            
+            <div class="pin-container">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit" maxlength="1" inputmode="numeric">
             </div>
+            
+            <div id="errorText"></div>
+            <button id="unlockBtn">❤️ Desbloquear</button>
+        </div>
 
-            <button id="unlockBtn">
-
-                Desbloquear
-
-            </button>
-
-            <p id="errorText"></p>
-
-        </section>
-
-        <!-- CARTA -->
-
-        <section id="letterSection" class="hidden">
-
-            <div class="envelope">
-
-                <div class="flap"></div>
-
-                <div class="paper">
-
-                    <h2>Para ti, Radip ❤️</h2>
-
-                    <p>
-
-                        Hay recuerdos que nunca dejan de existir.
-
-                    </p>
-
-                    <p>
-
-                        Hay personas que llegan para cambiar nuestra vida.
-
-                    </p>
-
-                    <p>
-
-                        Y hay palabras que solamente pueden decirse con la voz.
-
-                    </p>
-
-                    <p>
-
-                        Este pequeño rincón existe únicamente para ti.
-
-                    </p>
-
-                    <div id="audioContainer">
-
-                    </div>
-
-                    <div class="signature">
-
-                        Con todo mi amor
-
-                        <br><br>
-
-                        <strong>Valentina ❤️</strong>
-
-                    </div>
-
+        <!-- PANTALLA 2: CARTA Y AUDIO -->
+        <div id="letterSection" class="hidden">
+            <div class="paper">
+                <div id="audioContainer">
+                    <!-- El botón de audio se creará aquí -->
                 </div>
-
             </div>
+        </div>
+    </div>
 
-        </section>
+    <!-- =====================================================
+       LÓGICA (JAVASCRIPT) - CORAZONES, PIN Y MENSAJE FINAL
+    ===================================================== */ -->
+    <script>
+        const CORRECT_PIN = "2405";
 
-    </main>
+        const loginCard = document.getElementById("loginCard");
+        const letterSection = document.getElementById("letterSection");
+        const inputs = document.querySelectorAll(".digit");
+        const unlockBtn = document.getElementById("unlockBtn");
+        const errorText = document.getElementById("errorText");
+        const audioContainer = document.getElementById("audioContainer");
 
-    <script src="script.js"></script>
+        /* --- CANVAS: ESTRELLAS Y CORAZONES --- */
+        const canvas = document.getElementById("stars");
+        const ctx = canvas.getContext("2d");
+        let elements = [];
 
+        function resizeCanvas(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        function createBackground() {
+            elements = [];
+            for(let i = 0; i < 80; i++){
+                elements.push({
+                    type: "star",
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random(),
+                    speed: 0.01 + Math.random() * 0.02
+                });
+            }
+            for(let i = 0; i < 35; i++){
+                elements.push(newHeart(true));
+            }
+        }
+
+        function newHeart(randomY = false) {
+            return {
+                type: "heart",
+                x: Math.random() * canvas.width,
+                y: randomY ? Math.random() * canvas.height : canvas.height + 20,
+                size: Math.random() * 10 + 6,
+                speed: 0.4 + Math.random() * 0.7,
+                opacity: 0.15 + Math.random() * 0.4,
+                wobble: Math.random() * 100,
+                wobbleSpeed: 0.01 + Math.random() * 0.02
+            };
+        }
+
+        function drawHeartShape(ctx, x, y, size) {
+            ctx.moveTo(x, y + size / 4);
+            ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
+            ctx.bezierCurveTo(x - size / 2, y + (size * 5) / 8, x, y + (size * 7) / 8, x, y + size);
+            ctx.bezierCurveTo(x, y + (size * 7) / 8, x + size / 2, y + (size * 5) / 8, x + size / 2, y + size / 4);
+            ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 4);
+        }
+
+        function drawBackground(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            elements.forEach((el, index) => {
+                if (el.type === "star") {
+                    el.alpha += el.speed;
+                    let currentAlpha = (Math.sin(el.alpha) + 1) / 2;
+                    ctx.beginPath();
+                    ctx.arc(el.x, el.y, el.size, 0, Math.PI * 2);
+                    ctx.fillStyle = "rgba(255, 255, 255, " + currentAlpha * 0.5 + ")";
+                    ctx.fill();
+                } else if (el.type === "heart") {
+                    el.y -= el.speed;
+                    el.wobble += el.wobbleSpeed;
+                    let currentX = el.x + Math.sin(el.wobble) * 12;
+                    ctx.beginPath();
+                    drawHeartShape(ctx, currentX, el.y, el.size);
+                    ctx.fillStyle = "rgba(255, 78, 118, " + el.opacity + ")";
+                    ctx.fill();
+                    if (el.y < -20) {
+                        elements[index] = newHeart(false);
+                    }
+                }
+            });
+            requestAnimationFrame(drawBackground);
+        }
+        createBackground();
+        drawBackground();
+
+        /* --- CONTROL DEL PIN --- */
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+                input.value = input.value.replace(/[^0-9]/g, "");
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                if (getPin().length === 4) {
+                    unlock();
+                }
+            });
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && input.value === "") {
+                    if (index > 0) inputs[index - 1].focus();
+                }
+            });
+        });
+
+        function getPin() {
+            return [...inputs].map(input => input.value.trim()).join("");
+        }
+
+        function clearPin() {
+            inputs.forEach(input => input.value = "");
+            if(inputs[0]) inputs[0].focus();
+        }
+
+        if (unlockBtn) {
+            unlockBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                unlock();
+            });
+        }
+
+        /* --- LOGICA DE DESBLOQUEO --- */
+        function unlock() {
+            const pin = getPin();
+            if (pin.length < 4) return;
+
+            if (pin !== CORRECT_PIN) {
+                loginCard.classList.add("shake");
+                errorText.textContent = "❤️ Esa no es la clave correcta. Piensa en la fecha de nuestro aniversario.";
+                setTimeout(() => {
+                    loginCard.classList.remove("shake");
+                    clearPin();
+                }, 500);
+                return;
+            }
+
+            errorText.textContent = "";
+            loginCard.classList.add("fadeOut");
+            setTimeout(showLetter, 800);
+        }
+
+        function showLetter() {
+            loginCard.style.display = "none";
+            letterSection.classList.remove("hidden");
+            letterSection.classList.add("fadeIn");
+            
+            const paper = document.querySelector(".paper");
+            setTimeout(() => {
+                if (paper) paper.classList.add("show");
+                createAudioButton();
+            }, 500);
+        }
+
+        /* --- AUDIO Y MENSAJE DE VALENTINA --- */
+        function createAudioButton() {
+            audioContainer.innerHTML = "";
+            const button = document.createElement("button");
+            button.className = "listenBtn";
+            button.innerHTML = "❤️ Escuchar mi mensaje";
+            button.onclick = playMessage;
+            audioContainer.appendChild(button);
+        }
+
+        function playMessage() {
+            audioContainer.innerHTML = "";
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.autoplay = true;
+            audio.innerHTML = `
+                <source src="https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a" type="audio/mp4">
+            `;
+            audioContainer.appendChild(audio);
+            audio.addEventListener("ended", showFinalMessage);
+        }
+
+        function showFinalMessage() {
+            const final = document.createElement("div");
+            final.className = "finalMessage";
+            final.innerHTML = `
+                🌹
+                <br><br>
+                Sabes que sigues siendo el dueño de mi corazón...
+                <br><br>
+                Y sabes que quiero todo contigo...
+                <br><br>
+                Te extraño y extraño amarnos y acompañarnos...
+                <br><br>
+                Y comer hamburguesita con coca colita.
+                <br><br>
+                <strong>Con todo mi amor,<br>Valentina ❤️</strong>
+            `;
+            document.querySelector(".paper").appendChild(final);
+            setTimeout(() => {
+                final.classList.add("show");
+            }, 200);
+        }
+    </script>
 </body>
-
 </html>
