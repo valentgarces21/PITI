@@ -226,6 +226,10 @@
             background: linear-gradient(135deg, #ff7697, #ff9eb5);
         }
 
+        .listenBtn.third {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+        }
+
         audio {
             width: 100%;
             margin-top: 5px;
@@ -319,7 +323,6 @@
             <h1>Para mi amor</h1>
             <p class="subtitle">Este es un espacio secreto que preparé para ti.</p>
             <div class="divider"></div>
-            <!-- TEXTO DE PISTA ACTUALIZADO -->
             <p class="hint">Ingresa los 4 dígitos de nuestra fecha especial para desbloquear el mensaje.</p>
             
             <div class="pin-container">
@@ -340,6 +343,7 @@
 
                 <div id="audioContainer1" class="audio-wrapper"></div>
                 <div id="audioContainer2" class="audio-wrapper"></div>
+                <div id="audioContainer3" class="audio-wrapper"></div>
                 
                 <div class="inline-scroll-indicator">
                     <span>Desliza abajo para ver el video y leer tu nota final</span> 👇
@@ -373,11 +377,11 @@
     </div>
 
     <script>
-        // MANTENEMOS EL PIN ORIGINAL
         const CORRECT_PIN = "2405";
 
         const AUDIO_URL_1 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a";
         const AUDIO_URL_2 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784302511/Carrera_13_18_xyvox7.m4a"; 
+        const AUDIO_URL_3 = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784348400/Carrera_13_20_suoqas.m4a";
         const VIDEO_URL = "https://res.cloudinary.com/frtrtnp5/video/upload/v1784328829/video-marzo.mp4_qbcfxa.mp4";
 
         const loginCard = document.getElementById("loginCard");
@@ -387,6 +391,7 @@
         const errorText = document.getElementById("errorText");
         const audioContainer1 = document.getElementById("audioContainer1");
         const audioContainer2 = document.getElementById("audioContainer2");
+        const audioContainer3 = document.getElementById("audioContainer3");
 
         const canvas = document.getElementById("stars");
         const ctx = canvas.getContext("2d");
@@ -536,6 +541,7 @@
         function createAudioButtons() {
             audioContainer1.innerHTML = "";
             audioContainer2.innerHTML = "";
+            audioContainer3.innerHTML = "";
 
             const button1 = document.createElement("button");
             button1.className = "listenBtn";
@@ -548,6 +554,12 @@
             button2.innerHTML = "💕 Escuchar mensaje (Parte 2)";
             button2.onclick = () => playMessage(audioContainer2, AUDIO_URL_2);
             audioContainer2.appendChild(button2);
+
+            const button3 = document.createElement("button");
+            button3.className = "listenBtn third";
+            button3.innerHTML = "✨ Escuchar mensaje (Parte 3)";
+            button3.onclick = () => playMessage(audioContainer3, AUDIO_URL_3);
+            audioContainer3.appendChild(button3);
         }
 
         function playMessage(container, audioUrl) {
